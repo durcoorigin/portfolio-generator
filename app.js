@@ -1,8 +1,8 @@
 // // Core Modules
-// const fs = require('fs');
+const fs = require('fs');
 
-//  // Personal Modules
-// const generatePage = require('./src/page-template.js');
+ // Personal Modules
+const generatePage = require('./src/page-template.js');
 
 // NPM Packages
 const inquirer = require('inquirer');
@@ -37,11 +37,6 @@ const promptUser = () => {
                 }
             }    
         },
-        // {
-        //     type: 'input',
-        //     name: 'about',
-        //     message: 'Provide some information about yourself:'
-        // },
         {
             type: 'confirm',
             name: 'confirmAbout',
@@ -144,7 +139,11 @@ const promptProject = portfolioData => {
 promptUser()
     .then(promptProject)
     .then(portfolioData => {
-        console.log(portfolioData);
+        const pageHTML = generatePage(portfolioData);
+        fs.writeFile('index.html', pageHTML, err => {
+            if (err) throw new Error(err);
+            console.log('Portfolio complete! Check out index.html to see the output!');
+        });
     });
 
 
@@ -152,12 +151,8 @@ promptUser()
 // // Global Variables
 // const profileDataArgs = process.argv.slice(2, process.argv.length);
 // const [name, github] = profileDataArgs;
-// const pageHTML = generatePage(portfolioData);
 
-// fs.writeFile('index.html', generatePage(name, github), err => {
-//     if (err) throw new Error(err);
 
-//     console.log('Portfolio complete! Check out index.html to see the output!')
 // });
 
 
